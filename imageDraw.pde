@@ -1,5 +1,5 @@
 
-void imageDraw(PImage img, PShape s, float scale, float z, float heightOffset, float selection, boolean zoom) {
+void imageDraw(PImage img, PShape s, float scale, int z, float heightOffset, float selection, boolean zoom, boolean isFrame) {
 
   float imgWidth = img.width;
   float imgHeight = img.height;
@@ -14,20 +14,40 @@ void imageDraw(PImage img, PShape s, float scale, float z, float heightOffset, f
     //s.rotateX(sinMotion);
     //s.rotateZ(sinMotion);
 
-if (zoom) {
-   imageZoom(img, s, x, y, z, selection);
-} else {
+if (isFrame) {
+  if (time == 0) {
+            s.vertex(-x,       -y, z,         0, 0);             // top left    
+      s.vertex(x,         -y, z,  img.width, 0);           // top right
+      s.vertex(x,         y, z,   img.width, img.height);   // bottom right
+      s.vertex(-x,         y, z,  0, img.height);          // bottom left
+      
+      //frameDraw(f, x, y, z, sinVal);
+      s.endShape();
+  } else {
+        s.endShape();
+
+    s.setVertex(0, -x, -y, z);
+    s.setVertex(1, x,         -y, z);        
+    s.setVertex(2, x,         y, z);  
+    s.setVertex(3, -x,         y, z);   
+  }
   
-    s.vertex(-x,       -y, z,         0, 0);             // top left    
-    s.vertex(x,         -y, z,  img.width, 0);           // top right
-    s.vertex(x,         y, z,   img.width, img.height);   // bottom right
-    s.vertex(-x,         y, z,  0, img.height);          // bottom left
-    
-    //frameDraw(f, x, y, z, sinVal);
+} else { // meaning its just an image
+  if (zoom) {
+         imageZoom(img, s, x, y, z, selection);
+               s.endShape();
 
+  } else {
+         s.vertex(-x,       -y, z,         0, 0);             // top left    
+      s.vertex(x,         -y, z,  img.width, 0);           // top right
+      s.vertex(x,         y, z,   img.width, img.height);   // bottom right
+      s.vertex(-x,         y, z,  0, img.height);          // bottom left
+      
+      //frameDraw(f, x, y, z, sinVal);
+      s.endShape();
+  }
 }
-   s.endShape();
-
+  
   shape(s, 0, 0);
 
   //float fOff = 100; // frame offset haha

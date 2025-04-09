@@ -1,5 +1,5 @@
 
-void imageZoom (PImage img, PShape s,  float x, float y, float z, float selection) {
+void imageZoom (PImage img, PShape s,  float x, float y, int z, float selection) {
   
 // actually they're reversed since its from the top
  // (x, y, z, u, v)
